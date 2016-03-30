@@ -21,3 +21,21 @@ class log(models.Model):
     start_time=models.DateTimeField(default=datetime.now())
     end_time=models.DateTimeField(default=datetime.now())
     status=models.CharField(max_length=30)
+
+class Master(models.Model):
+    host_name = models.CharField(max_length=50)
+    host_ip = models.CharField(max_length=20)
+    host_location = models.CharField(max_length=30)
+    remark = models.CharField(max_length=30)
+
+class Playbook(models.Model):
+    p_name = models.CharField(max_length=20)
+    p_type = models.ManyToManyField(Master)
+
+
+class Host(models.Model):
+    host_name = models.CharField(max_length=50)
+    host_ip = models.CharField(max_length=20)
+    host_group = models.CharField(max_length=30)
+    remark = models.CharField(max_length=30)
+

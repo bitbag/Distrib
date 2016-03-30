@@ -2,7 +2,7 @@
 __author__ = 'Administrator'
 
 from rest_framework import serializers
-from distrib_api.models import Miss, Service_type, Status
+from distrib_api.models import Miss, Service_type, Status, log, Master, Host, Playbook
 
 
 class Miss_ser(serializers.HyperlinkedModelSerializer):
@@ -19,3 +19,23 @@ class Status_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Status
         fields = ('name','alise')
+
+class log_ser(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = log
+        fields = ('mission','start_time','end_time','status')
+
+class Master_ser(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Master
+        fields = ('host_name','host_ip','host_location','remark')
+
+class Playbook_ser(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Playbook
+        fields = ('p_name','p_type')
+
+class Host_ser(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Host
+        fields = ('host_name','host_ip','host_group','remark')
