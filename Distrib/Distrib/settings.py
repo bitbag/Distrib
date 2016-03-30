@@ -58,6 +58,17 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'Distrib.urls'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '192.168.2.157:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        },
+    },
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
