@@ -33,4 +33,4 @@ class host_viewset(viewsets.ModelViewSet):
 
 def index(request):
     strs = Miss.objects.all()
-    return render_to_response('index.html',{'strs':strs})
+    return render_to_response('basex.html',{'sdf':strs})
