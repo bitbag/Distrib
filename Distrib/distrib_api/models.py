@@ -34,7 +34,7 @@ class Playbook(models.Model):
 
 
 class Host(models.Model):
-    host_name = models.CharField(max_length=50)
+    host_name = models.ForeignKey(Master)
     host_ip = models.CharField(max_length=20)
     host_group = models.CharField(max_length=30)
     remark = models.CharField(max_length=30)
