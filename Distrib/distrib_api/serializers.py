@@ -2,7 +2,7 @@
 __author__ = 'Administrator'
 
 from rest_framework import serializers
-from distrib_api.models import Miss, Service_type, Status, log, Master, Host, Playbook
+from distrib_api.models import *
 
 
 class Miss_ser(serializers.HyperlinkedModelSerializer):
