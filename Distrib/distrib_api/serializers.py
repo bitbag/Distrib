@@ -38,4 +38,4 @@ class Playbook_ser(serializers.HyperlinkedModelSerializer):
 class Host_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Host
-        fields = ('host_name','host_ip','host_group','remark')
+        fields = ('note_host_name','note_host_ip','host_group','remark')
