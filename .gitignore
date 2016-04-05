@@ -1,2 +1,4 @@
-Distrib/.idea/*
+.idea
 *.pyc
+*.swp
+*.tmp
