@@ -1,3 +1,5 @@
 Distrib/.idea/*
 *.pyc
-.idea/*
+.idea
+.tmp
+.swp
