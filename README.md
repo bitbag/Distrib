@@ -3,7 +3,7 @@
 """To_enable_redis_cache:
    1.pip install django-redis==3.8.3      #enable redis cache
 
-   2. °²×°redis-server
+   2.install redis-server
 
    3.modefy settings.py add below:
       CACHES = {
