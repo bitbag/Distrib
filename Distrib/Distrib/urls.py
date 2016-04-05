@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^index/', views.index),
     url(r'^showdata/', views.showdata),
+    url(r'^rewis/', Write_to_redis),
+    url(r'^redis/', Get_from_redis),
 ]
