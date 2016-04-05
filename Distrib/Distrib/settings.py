@@ -61,12 +61,15 @@ ROOT_URLCONF = 'Distrib.urls'
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '192.168.2.157:6379',
+        'LOCATION': 'redis://192.168.2.157:6379/1',
         "OPTIONS": {
             "CLIENT_CLASS": "redis_cache.client.DefaultClient",
         },
     },
 }
+REDIS_TIMEOUT=7*24*60*60
+CUBES_REDIS_TIMEOUT=60*60
+NEVER_REDIS_TIMEOUT=365*24*60*60
 
 
 TEMPLATES = [
