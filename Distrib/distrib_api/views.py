@@ -56,6 +56,9 @@ class host_viewset(viewsets.ModelViewSet):
     filter_backends = (backends.DjangoFilterBackend, )
     filter_class = HostFilter
 
+def index(request):
+    return render(request,'index.html')
+
 def Write_to_redis(request):
    dics = {}
     if request.method == 'POST':
