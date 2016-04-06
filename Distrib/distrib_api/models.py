@@ -3,11 +3,15 @@ from datetime import datetime
 
 class Service_type(models.Model):
     name=models.CharField(max_length=30)
-    alise=models.CharField(max_length=30)
+    alias=models.CharField(max_length=30)
+    def __unicode__(self):
+        return self.alias
 
 class Status(models.Model):
     name=models.CharField(max_length=30)
-    alise=models.CharField(max_length=30)
+    alias=models.CharField(max_length=30)
+    def __unicode__(self):
+        return self.alias
 
 class Miss(models.Model):
     group=models.TextField()
@@ -27,11 +31,14 @@ class Master(models.Model):
     host_ip = models.CharField(max_length=20)
     host_location = models.CharField(max_length=30)
     remark = models.CharField(max_length=30)
+    def __unicode__(self):
+        return self.host_ip
 
 class Playbook(models.Model):
     p_name = models.CharField(max_length=20)
     p_type = models.ManyToManyField(Master)
-
+    def __unicode__(self):
+        return self.p_name
 
 class Host(models.Model):
     note_host_name = models.ForeignKey(Master)
