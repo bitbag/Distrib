@@ -60,7 +60,7 @@ def index(request):
     return render(request,'index.html')
 
 def Write_to_redis(request):
-   dics = {}
+    dics = {}
     if request.method == 'POST':
         dics = eval(json.dumps(request.POST))
         try:
@@ -68,7 +68,9 @@ def Write_to_redis(request):
                 print k,val
                 if k != 'csrfmiddlewaretoken':
                     cache.set(k,val)
-    return render(request,'basex.html',{'sdf':dics})
+        except Exception,e:
+            return render(request,'basex.html',{'sdf':dics})
+
 
 def Get_from_redis(request,*args):
     dicc = {}
