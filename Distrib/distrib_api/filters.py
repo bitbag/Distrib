@@ -43,9 +43,9 @@ class PlaybookFilter(django_filters.FilterSet):
         model = Playbook
 
 
-class HostFilter(django_filters.FilterSet):
+class HostsFilter(django_filters.FilterSet):
     notehostip = filters.CharFilter(name='note_host_ip')
 
     class Meta:
-        model = Host
+        model = Hosts
 
