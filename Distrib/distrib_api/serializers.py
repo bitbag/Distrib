@@ -13,12 +13,12 @@ class Miss_ser(serializers.HyperlinkedModelSerializer):
 class Service_type_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service_type
-        fields = ('url','name','alise')
+        fields = ('url','name','alias')
 
 class Status_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Status
-        fields = ('url','name','alise')
+        fields = ('url','name','alias')
 
 class log_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
