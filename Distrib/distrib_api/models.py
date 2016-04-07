@@ -47,7 +47,7 @@ class Playbook(models.Model):
 #     remark = models.CharField(max_length=30)
 class Hosts(models.Model):
     note_host_name = models.ForeignKey(Master)
-    note_host_id = models.IntegerField(primary_key=True)
+    note_host_id = models.AutoField(primary_key=True)
     note_host_ip = models.CharField(max_length=20)
     host_group = models.CharField(max_length=30)
     remark = models.CharField(max_length=30)
