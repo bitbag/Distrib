@@ -31,7 +31,7 @@ class Masters_ser(serializers.HyperlinkedModelSerializer):
         fields = ('url','master_host_name','master_host_ip','master_host_location','remark')
 
 class Playbook_ser(serializers.HyperlinkedModelSerializer):
-    p_type=serializers.SlugRelatedField(queryset=Master.objects.all(), many=True,slug_field='host_ip')
+    p_type=serializers.SlugRelatedField(queryset=Masters.objects.all(), many=True,slug_field='host_ip')
     class Meta:
         model = Playbook
         fields = ('url','p_name','p_type')
