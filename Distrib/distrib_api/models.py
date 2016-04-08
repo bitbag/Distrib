@@ -33,7 +33,7 @@ class Masters(models.Model):
     master_host_location = models.CharField(max_length=30)
     remark = models.CharField(max_length=30)
     def __unicode__(self):
-        return self.host_ip
+        return self.master_host_ip
 
 class Playbook(models.Model):
     p_name = models.CharField(max_length=20)
