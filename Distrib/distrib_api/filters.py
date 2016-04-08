@@ -31,7 +31,7 @@ class LogFilter(django_filters.FilterSet):
         model = log
 
 class MastersFilter(django_filters.FilterSet):
-    hostip = filters.CharFilter(name='host_ip')
+    hostip = filters.CharFilter(name='master_host_ip')
 
     class Meta:
         model = Masters
