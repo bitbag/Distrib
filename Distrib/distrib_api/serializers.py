@@ -25,10 +25,10 @@ class log_ser(serializers.HyperlinkedModelSerializer):
         model = log
         fields = ('url','mission','start_time','end_time','status')
 
-class Master_ser(serializers.HyperlinkedModelSerializer):
+class Masters_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Master
-        fields = ('url','host_name','host_ip','host_location','remark')
+        model = Masters
+        fields = ('url','master_host_name','master_host_ip','master_host_location','remark')
 
 class Playbook_ser(serializers.HyperlinkedModelSerializer):
     p_type=serializers.SlugRelatedField(queryset=Master.objects.all(), many=True,slug_field='host_ip')

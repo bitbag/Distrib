@@ -38,11 +38,11 @@ class log_viewset(viewsets.ModelViewSet):
     filter_backends = (backends.DjangoFilterBackend, )
     filter_class = LogFilter
 
-class master_viewset(viewsets.ModelViewSet):
-    queryset = Master.objects.all()
-    serializer_class = Master_ser
+class masters_viewset(viewsets.ModelViewSet):
+    queryset = Masters.objects.all()
+    serializer_class = Masters_ser
     filter_backends = (backends.DjangoFilterBackend, )
-    filter_class = MasterFilter
+    filter_class = MastersFilter
 
 class playbook_viewset(viewsets.ModelViewSet):
     queryset = Playbook.objects.all()
