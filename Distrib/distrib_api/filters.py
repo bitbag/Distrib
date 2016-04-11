@@ -30,11 +30,11 @@ class LogFilter(django_filters.FilterSet):
     class Meta:
         model = log
 
-class MasterFilter(django_filters.FilterSet):
-    hostip = filters.CharFilter(name='master_host_ip')
+class MastersFilter(django_filters.FilterSet):
+    hostip = filters.CharFilter(name='master_ip')
 
     class Meta:
-        model = Master
+        model = Masters
 
 class PlaybookFilter(django_filters.FilterSet):
     pname = filters.CharFilter(name='play_name')
@@ -43,9 +43,9 @@ class PlaybookFilter(django_filters.FilterSet):
         model = PlayBook
 
 
-class HostFilter(django_filters.FilterSet):
+class HostsFilter(django_filters.FilterSet):
     hostip = filters.CharFilter(name='host_ip')
 
     class Meta:
-        model = Host
+        model = Hosts
 

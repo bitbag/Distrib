@@ -9,9 +9,9 @@ router.register(r'miss', views.miss_viewset)
 router.register(r'service', views.seria_viewset)
 router.register(r'status', views.status_viewset)
 router.register(r'log', views.log_viewset)
-router.register(r'master', views.master_viewset)
+router.register(r'master', views.masters_viewset)
 router.register(r'playbook', views.playbook_viewset)
-router.register(r'host', views.host_viewset)
+router.register(r'host', views.hosts_viewset)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include(router.urls)),
