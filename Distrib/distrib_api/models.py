@@ -15,19 +15,18 @@ class Status(models.Model):
 
 class Miss(models.Model):
     group=models.TextField()
-    type=models.ForeignKey(Service_type)
+    type=models.TextField()
     version=models.CharField(max_length=80)
-    status=models.ForeignKey(Status)
+    status=models.CharField(max_length=20)
     remark=models.CharField(max_length=80)
 
 class log(models.Model):
-    mission=models.ForeignKey(Miss)
+    mission=models.TextField()
     start_time=models.DateTimeField(default=datetime.now())
     end_time=models.DateTimeField(default=datetime.now())
     status=models.CharField(max_length=30)
 
-class Masters(models.Model):
-    master_id = models.AutoField(primary_key=True)
+class Master(models.Model):
     master_host_name = models.CharField(max_length=50)
     master_host_ip = models.CharField(max_length=20)
     master_host_location = models.CharField(max_length=30)
@@ -35,15 +34,14 @@ class Masters(models.Model):
     def __unicode__(self):
         return self.master_host_ip
 
-class Playbook(models.Model):
-    p_name = models.CharField(max_length=20)
-    p_type = models.ManyToManyField(Masters)
+class PlayBook(models.Model):
+    play_name = models.CharField(max_length=40,default=None)
+    play_type = models.CharField(max_length=30,default=None)
     def __unicode__(self):
-        return self.p_name
+        return self.play_name
 
-class Hosts(models.Model):
-    host_name = models.ForeignKey(Masters)
-    host_id = models.AutoField(primary_key=True)
+class Host(models.Model):
+    host_name = models.TextField()
     host_ip = models.CharField(max_length=20)
     host_group = models.CharField(max_length=30)
     remark = models.CharField(max_length=30)

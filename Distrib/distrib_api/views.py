@@ -38,23 +38,23 @@ class log_viewset(viewsets.ModelViewSet):
     filter_backends = (backends.DjangoFilterBackend, )
     filter_class = LogFilter
 
-class masters_viewset(viewsets.ModelViewSet):
-    queryset = Masters.objects.all()
-    serializer_class = Masters_ser
+class master_viewset(viewsets.ModelViewSet):
+    queryset = Master.objects.all()
+    serializer_class = Master_ser
     filter_backends = (backends.DjangoFilterBackend, )
-    filter_class = MastersFilter
+    filter_class = MasterFilter
 
 class playbook_viewset(viewsets.ModelViewSet):
-    queryset = Playbook.objects.all()
-    serializer_class = Playbook_ser
+    queryset = PlayBook.objects.all()
+    serializer_class = PlayBook_ser
     filter_backends = (backends.DjangoFilterBackend, )
     filter_class = PlaybookFilter
 
-class hosts_viewset(viewsets.ModelViewSet):
-    queryset = Hosts.objects.all()
-    serializer_class = Hosts_ser
+class host_viewset(viewsets.ModelViewSet):
+    queryset = Host.objects.all()
+    serializer_class = Host_ser
     filter_backends = (backends.DjangoFilterBackend, )
-    filter_class = HostsFilter
+    filter_class = HostFilter
 
 def index(request):
     return render(request,'index.html')
