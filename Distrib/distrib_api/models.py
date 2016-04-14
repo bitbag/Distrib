@@ -1,24 +1,37 @@
 from django.db import models
 from datetime import datetime
 
-class Service_type(models.Model):
-    name = models.CharField(max_length=30)
-    alias = models.CharField(max_length=30)
-    def __unicode__(self):
-        return self.alias
-
-class Status(models.Model):
-    name = models.CharField(max_length=30)
-    alias = models.CharField(max_length=30)
-    def __unicode__(self):
-        return self.alias
+# class Service_type(models.Model):
+#     name = models.CharField(max_length=30)
+#     alias = models.CharField(max_length=30)
+#     def __unicode__(self):
+#         return self.alias
+#
+# class Status(models.Model):
+#     name = models.CharField(max_length=30)
+#     alias = models.CharField(max_length=30)
+#     def __unicode__(self):
+#         return self.alias
 
 class Miss(models.Model):
-    group = models.TextField()
-    type = models.TextField()
-    version = models.CharField(max_length=80)
+    hosts = models.TextField()
+    playbooks = models.TextField()
+    version = models.CharField(max_length=50,null=False)
     status = models.CharField(max_length=20)
-    remark = models.CharField(max_length=80)
+    uniquevalue = models.CharField(max_length=30,default=None)
+    release_time = models.CharField(max_length=30,default=None)
+    finish_time = models.CharField(max_length=30,default=None)
+    remark = models.CharField(max_length=80,blank=True)
+
+class SubMiss(models.Model):
+    host = models.CharField(max_length=15)
+    playbooks = models.TextField()
+    version = models.CharField(max_length=50,null=False)
+    status = models.CharField(max_length=20)
+    uniquevalue = models.CharField(max_length=30,default=None)
+    release_time = models.CharField(max_length=30,default=None)
+    finish_time = models.CharField(max_length=30,default=None)
+    remark = models.CharField(max_length=80,blank=True)
 
 class log(models.Model):
     mission = models.TextField()
