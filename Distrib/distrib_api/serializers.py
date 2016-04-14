@@ -8,17 +8,22 @@ from distrib_api.models import *
 class Miss_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Miss
-        fields = ('url','group','type','version','status','remark')
+        fields = ('url','hosts','playbooks','version','status','remark')
 
-class Service_type_ser(serializers.HyperlinkedModelSerializer):
+class SubMiss_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Service_type
-        fields = ('url','name','alias')
+        model = SubMiss
+        fields = ('url','host','playbooks','version','status','remark')
 
-class Status_ser(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Status
-        fields = ('url','name','alias')
+# class Service_type_ser(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Service_type
+#         fields = ('url','name','alias')
+#
+# class Status_ser(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Status
+#         fields = ('url','name','alias')
 
 class log_ser(serializers.HyperlinkedModelSerializer):
     class Meta:

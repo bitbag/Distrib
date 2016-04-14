@@ -14,24 +14,20 @@
     <script type="text/javascript" >
         $(function(){
            $("#check").click(function(){
-               var sid = $("#sid").val();
-               var sname = $("#sname").val();
-               var sversion = $("#sversion").val();
+               var hostlist = $("#hostlist").val();
+               var playbook = $("#playbook").val();
+               var version = $("#version").val();
                var sport = $("#sport").val();
-               if(sid==""){
-                   layer.alert("服务id 不能为空!");
+               if(hostlist==""){
+                   layer.alert("主机列表不能为空!");
                    return false;
                }
-               if(sname==""){
-                   layer.alert("服务名称 不能为空!");
+               if(playbook==""){
+                   layer.alert("任务列表不能为空!");
                    return false;
                }
-               if(sversion==""){
-                   layer.alert("服务版本号 不能为空!");
-                   return false;
-               }
-               if(sport==""){
-                   layer.alert("服务端口 不能为空!");
+               if(version==""){
+                   layer.alert("任务版本不能为空!");
                    return false;
                }
                $("#formx").submit();
@@ -42,11 +38,12 @@
 </head>
 <body>
 <div id="user">
-    <form method="post" id="formx" action="/basex/">
-    <p>服务id: <input type="text" name="sid" id="sid"/></p>
-    <p>服务名称: <input type="text" name="sname" id="sname"/></p>
-    <p>服务版本号: <input type="text" name="sversion" id="sversion" /></p>
-    <p>服务端口: <input type="text" name="sport" id="sport"/></p>
+    <form method="post" id="formx" action="/CreateMission/">
+                {% csrf_token %}
+    <p>主机列表 <input type="text" name="hostlist" id="hostlist"/></p>
+    <p>playbook <input type="text" name="playbook" id="playbook"/></p>
+    <p>任务版本号 <input type="text" name="version" id="version"/></p>
+    <p>备注 <input type="text" name="remark" id="remark"/></p>
     <input type="button" id="check" value="Submit"/>
     </form>
 </div>
