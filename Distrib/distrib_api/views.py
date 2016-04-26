@@ -7,6 +7,8 @@ from rest_framework_filters import backends
 import rest_framework_filters as filters
 from .filters import *
 from datetime import datetime
+from django.core.cache import cache
+from distrib_api.monitor import WriteToEtcd
 
 # class seria_viewset(viewsets.ModelViewSet):
 #     queryset = Service_type.objects.all()
@@ -64,6 +66,8 @@ class hosts_viewset(viewsets.ModelViewSet):
     filter_backends = (backends.DjangoFilterBackend, )
     filter_class = HostsFilter
 
+
+
 def index(request):
     return render(request,'index.html')
 
@@ -72,61 +76,59 @@ def CreateMission(request):
     if request.method == 'GET':
         return render(request,'index.html')
     elif request.method == 'POST':
+        HostList = list(set([ host for host in request.REQUEST.get('hostlist').split(',')]))
+        PlaybookList = list(set([playbook for playbook in request.REQUEST.get('playbook').split(',')]))
+        Version = request.REQUEST.get('version')
+        UniqueValue = datetime.now().strftime("%Y%m%d%H%M%S")
+        status = {
+            '0':'unexecuted',
+            '1':'executing',
+            '2':'executed',
+            '3':'failed',
+            '4':'unknown',
+        }
+        remark = request.REQUEST.get('remark')
         try:
-            HostList = list(set([ host for host in request.REQUEST.get('hostlist').split(',')]))
-            PlaybookList = list(set([playbook for playbook in request.REQUEST.get('playbook').split(',')]))
-            Version = request.REQUEST.get('version')
-            UniqueValue = datetime.now().strftime("%Y%m%d%H%M%S")
-            status = {
-                '0':'unexecuted',
-                '1':'executing',
-                '2':'executed',
-                '3':'failed',
-                '4':'unknown',
-            }
-            remark = request.REQUEST.get('remark')
-            try:
-                print r'=====================开始生成主任务==================='
-                Miss.objects.create(hosts=HostList,playbooks=PlaybookList,version=Version,status=status['0'],uniquevalue=UniqueValue,release_time=datetime.now(),finish_time='unknown',remark=remark)
-                print '======================主任务已生成====================='
-                if PlaybookList:
+            print '=====================开始生成主任务==================='
+            Miss.objects.create(
+                hosts=HostList,
+                playbooks=PlaybookList,
+                version=Version,
+                status=status['0'],
+                uniquevalue=UniqueValue,
+                release_time=datetime.now(),
+                finish_time='unknown',
+                remark=remark
+            )
+            print '======================主任务已生成====================='
+            for host in HostList:
+                hostdic = {'host':host,
+                           'status':status['0'],
+                           'playbook':PlaybookList
+                           }
+                try:
+                    SubMiss.objects.create(
+                        host=host,
+                        playbooks=PlaybookList,
+                        release_time=datetime.now(),
+                        finish_time='unknown',
+                        status=status['0'],
+                        uniquevalue=UniqueValue
+                    )
+                    print '======================子任务写入mysql====================='
                     try:
-                        for host in HostList:
-                            SubMiss.objects.create(host=host,playbooks=PlaybookList,release_time=datetime.now(),finish_time='unknown',status=status['0'],uniquevalue=UniqueValue)
-                        print '======================子任务已生成====================='
+                        WriteToEtcd(host,hostdic)
+                        print '======================子任务已写入etcd====================='
                     except Exception,error:
-                        print "==============子任务生成失败 %s===================" % error
-                else:
-                    print "==================PlaybookList is Null============"
-            except Exception,error:
-                print '====================Create mission failed! %s======================' % error
+                        print '======================写入etcd失败 %s=====================' % error
+                except Exception,error:
+                    print "==============子任务生成失败 %s===================" % error
         except Exception,error:
-            print '===============No host or playbook selected! %s==========================' % error
+            print '====================Create mission failed! %s======================' % error
         return render(request,'basex.html',{'sdf':(PlaybookList,HostList,Version)})
     else:
-        return render(request,'basex.html',{'sdf':'error'})
+        return render(request,'basex.html',{'sdf':'use post or get'})
 
-def Write_to_redis(request):
-    dics = {}
-    if request.method == 'POST':
-        dics = eval(json.dumps(request.POST))
-        try:
-            for k,val in dics.items():
-                print k,val
-                if k != 'csrfmiddlewaretoken':
-                    cache.set(k,val)
-        except Exception,e:
-            return render(request,'basex.html',{'sdf':dics})
-
-
-def Get_from_redis(request,*args):
-    dicc = {}
-    for i in args:
-        try:
-            dicc[i] = cache.get(i)
-        except Exception,e:
-            return render(request,'basex.html',{'sdf':e})
-    return render(request,'basex.html',{'sdf':dicc})
 
 def basex(request):
     dicx = {}
