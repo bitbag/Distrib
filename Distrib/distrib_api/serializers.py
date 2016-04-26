@@ -10,6 +10,7 @@ class Miss_ser(serializers.HyperlinkedModelSerializer):
         model = Miss
         fields = ('url','hosts','playbooks','version','status','remark')
 
+
 class SubMiss_ser(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SubMiss

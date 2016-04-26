@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^api/token/', restview.obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^index/', views.index),
-    url(r'^CreateMission/', views.CreateMission),
-    url(r'^rewis/', views.Write_to_redis),
-    url(r'^redis/', views.Get_from_redis),
+    url(r'^createmission/', views.CreateMission),
+    # url(r'^rewis/', views.WriteToRedis),
+    # url(r'^redis/', views.GetFromRedis),
 ]
