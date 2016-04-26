@@ -40,23 +40,30 @@ INSTALLED_APPS = (
     'distrib_api',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_select2',
+    'bootstrap_pagination',
+    'webui'
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'pagination_bootstrap.middleware.PaginationMiddleware',
 )
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.DefaultResultsSetPagination',
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework_filters.backends.DjangoFilterBackend',
     ),
@@ -81,14 +88,18 @@ NEVER_REDIS_TIMEOUT=365*24*60*60
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['D:\\work\\Distrib\\Distrib\\webui\\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                'django.core.context_processors.request',
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -103,7 +114,7 @@ WSGI_APPLICATION = 'Distrib.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db1.sqlite3'),
     }
 }
 
@@ -126,3 +137,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static').replace('\\', '/')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    'D:\\work\\Distrib\\Distrib\\static',
+)
+
+LOGIN_REDIRECT_URL='/'
+LOGIN_URL='/login/'
+LOGOUT_REDIRECT_URL='/'
+
+# Select 2
+AUTO_RENDER_SELECT2_STATICS = True
+SELECT2_BOOTSTRAP = True

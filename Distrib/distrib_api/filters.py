@@ -1,58 +1,46 @@
-import django_filters
-from rest_framework_filters import filters
-from rest_framework_filters.filters import RelatedFilter, AllLookupsFilter
-from rest_framework_filters.filterset import FilterSet, LOOKUP_SEP
-from distrib_api.models import *
+from rest_framework import filters as source_filter
+import rest_framework_filters as filters
+from rest_framework_filters.backends import DjangoFilterBackend
 
-# class ServiceTypeFilter(django_filters.FilterSet):
-#     name  = filters.CharFilter(name='name')
-#
-#     class Meta:
-#         model = Service_type
-#
-# class StatusFilter(django_filters.FilterSet):
-#     name = filters.CharFilter(name='name')
-#
-#     class Meta:
-#         model = Status
 
-class MissFilter(django_filters.FilterSet):
-    group = filters.CharFilter(name='hosts')
-    version = filters.CharFilter(name='version')
+from models import *
 
+# class BaseViewSet(viewsets.ModelViewSet):
+class Play_typeFilter(filters.FilterSet):
+    name = filters.CharFilter(name="name")
     class Meta:
-        model = Miss
+        model = Play_type
+        fields = ['name']
 
-class SubMissFilter(django_filters.FilterSet):
-    group = filters.CharFilter(name='host')
-    version = filters.CharFilter(name='version')
-
-    class Meta:
-        model = SubMiss
-
-class LogFilter(django_filters.FilterSet):
-    mission = filters.CharFilter(name='mission')
-    status = filters.CharFilter(name='status')
-
-    class Meta:
-        model = log
-
-class MastersFilter(django_filters.FilterSet):
-    hostip = filters.CharFilter(name='master_ip')
-
-    class Meta:
-        model = Masters
-
-class PlaybookFilter(django_filters.FilterSet):
-    pname = filters.CharFilter(name='play_name')
-
+class Play_bookFilter(filters.FilterSet):
+    type = filters.CharFilter(name="type")
     class Meta:
         model = PlayBook
+        fields = ['name','type']
 
-
-class HostsFilter(django_filters.FilterSet):
-    hostip = filters.CharFilter(name='host_ip')
-
+class HostFilter(filters.FilterSet):
+    name=filters.CharFilter(name="name")
     class Meta:
-        model = Hosts
+        model = Ipv4Address
+        fields=['name']
 
+class StatusFilter(filters.FilterSet):
+    name = filters.CharFilter(name="name")
+    class Meta:
+        model = Status
+        fields = ['name']
+
+class MissionFilter(filters.FilterSet):
+    status = filters.RelatedFilter(StatusFilter, name='status')
+    mark=filters.CharFilter(name="mark")
+    class Meta:
+        model = Mission
+        fields=['status','version','mark']
+
+class Sub_missionFilter(filters.FilterSet):
+    status = filters.RelatedFilter(StatusFilter, name='status')
+    host = filters.RelatedFilter(HostFilter, name='host')
+    mission = filters.RelatedFilter(MissionFilter,name='mission')
+    class Meta:
+        model = Sub_Mission
+        fields = ['status', 'mission','host']

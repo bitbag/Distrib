@@ -1,63 +1,45 @@
 from django.db import models
-from datetime import datetime
+from abstract.models import CommonModel,NameModel
+import uuid
 
-# class Service_type(models.Model):
-#     name = models.CharField(max_length=30)
-#     alias = models.CharField(max_length=30)
-#     def __unicode__(self):
-#         return self.alias
-#
-# class Status(models.Model):
-#     name = models.CharField(max_length=30)
-#     alias = models.CharField(max_length=30)
-#     def __unicode__(self):
-#         return self.alias
+class Play_type(NameModel):
+    pass
 
-class Miss(models.Model):
-    hosts = models.TextField()
-    playbooks = models.TextField()
-    version = models.CharField(max_length=50,null=False)
-    status = models.CharField(max_length=20)
-    uniquevalue = models.CharField(max_length=30,default=None)
-    release_time = models.CharField(max_length=30,default=None)
-    finish_time = models.CharField(max_length=30,default=None)
-    remark = models.CharField(max_length=80,blank=True)
+class Status(NameModel):
+    pass
 
-class SubMiss(models.Model):
-    host = models.CharField(max_length=15)
-    playbooks = models.TextField()
-    version = models.CharField(max_length=50,null=False)
-    status = models.CharField(max_length=20)
-    uniquevalue = models.CharField(max_length=30,default=None)
-    release_time = models.CharField(max_length=30,default=None)
-    finish_time = models.CharField(max_length=30,default=None)
-    remark = models.CharField(max_length=80,blank=True)
+class PlayBook(NameModel):
+    type = models.ForeignKey(Play_type)
 
-class log(models.Model):
-    mission = models.TextField()
-    start_time = models.DateTimeField(default=datetime.now())
-    end_time = models.DateTimeField(default=datetime.now())
-    status = models.CharField(max_length=30)
+class Ipv4Address(NameModel):
+    class Meta:
+        ordering = ['name', ]
 
-class Masters(models.Model):
-    master_id = models.AutoField(primary_key=True)
-    master_name = models.CharField(max_length=50)
-    master_ip = models.CharField(max_length=20)
-    master_location = models.CharField(max_length=30)
+class Ipv4Network(NameModel):
+    gateway = models.CharField(max_length=18, null=True)
+    class Meta:
+        ordering = ['name', ]
+
+class Group(NameModel):
+    ips = models.ManyToManyField(Ipv4Address)
     remark = models.CharField(max_length=30)
-    def __unicode__(self):
-        return self.master_ip
 
-class PlayBook(models.Model):
-    play_name = models.CharField(max_length=40,default=None)
-    play_type = models.CharField(max_length=30,default=None)
+class Mission(CommonModel):
+    mark = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    hosts = models.ManyToManyField(Ipv4Address)
+    groups = models.ManyToManyField(Group)
+    playbooks = models.ManyToManyField(PlayBook)
+    version = models.CharField(max_length=50,null=False)
+    status = models.ForeignKey(Status)
+    remark = models.TextField(blank=True)
     def __unicode__(self):
-        return self.play_name
+        return str(self.mark)
+    class Meta:
+        ordering = ['-created_date', ]
 
-class Hosts(models.Model):
-    host_id = models.AutoField(primary_key=True)
-    host_name = models.TextField()
-    host_ip = models.CharField(max_length=20)
-    host_group = models.CharField(max_length=30)
-    remark = models.CharField(max_length=30)
+class Sub_Mission(CommonModel):
+    mission=models.ForeignKey(Mission)
+    host = models.ForeignKey(Ipv4Address)
+    status = models.ForeignKey(Status)
+    remark = models.CharField(max_length=80,blank=True)
 
