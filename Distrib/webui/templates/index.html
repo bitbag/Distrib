@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load bootstrap_pagination %}
+{% block username %}
+{{ username }}
+{% endblock %}
+{% block menu %}
+        <li class="active open">
+					<a href="javascript:;">
+					<i class="icon-briefcase"></i>
+					<span class="title">Data Tables</span>
+					<span class="arrow open"></span>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a href="{% url 'mission' %}">
+							Mission</a>
+						</li>
+					</ul>
+				</li>
+{% endblock %}
+{% block content %}
+    login succ
+{% endblock %}
+{% block scripts %}
+<script>
+jQuery(document).ready(function() {
+   Metronic.init(); // init metronic core components
+Layout.init(); // init current layout
+{#Demo.init(); // init demo features#}
+   TableEditable.init();
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load bootstrap_pagination %}
+{% block username %}
+{{ username }}
+{% endblock %}
+{% block menu %}
+        <li class="active open">
+					<a href="javascript:;">
+					<i class="icon-briefcase"></i>
+					<span class="title">Data Tables</span>
+					<span class="arrow open"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="active">
+                            <a href="{% url 'mission' %}">
+							Mission</a>
+						</li>
+					</ul>
+				</li>
+{% endblock %}
+{% block content %}
+    		<div class="page-content">
+			<!-- BEGIN PAGE BREADCRUMB -->
+			<ul class="page-breadcrumb breadcrumb">
+				<li>
+					<a href="{% url 'index' %}">Home</a>
+					<i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="{% url 'index' %}">Data Tables</a>
+					<i class="fa fa-circle"></i>
+				</li>
+				<li>
+					<a href="{% url 'mission' %}">Mission</a>
+				</li>
+			</ul>
+			<!-- END PAGE BREADCRUMB -->
+			<!-- END PAGE HEADER-->
+			<!-- BEGIN PAGE CONTENT-->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+					<div class="portlet box blue">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-edit"></i>Mission
+							</div>
+							<div class="tools">
+								<a href="javascript:;" class="collapse">
+								</a>
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="javascript:;" class="remove">
+								</a>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="table-toolbar">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="btn-group">
+                                            <a href="{% url 'mission-create' %}" class="btn green">Create New</a>
+										</div>
+									</div>
+								</div>
+							</div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+{#							<table class="table table-striped table-hover table-bordered" id="sample_editable_1">#}
+							<thead>
+							<tr>
+								<th>
+									 mark
+								</th>
+								<th>
+									 playbooks
+								</th>
+								<th>
+									 version
+								</th>
+								<th>
+									 status
+								</th>
+                                <th>
+									 Created_date
+								</th>
+								<th>
+									 close
+								</th>
+                                <th>
+                                    act-list
+                                </th>
+								<th>
+									 Detail
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+                                {% for m in object_list  %}
+                                    <tr>
+                                        <td>{{ m.mark }}</td>
+                                        <td>{{ m.playbooks }}</td>
+                                        <td>{{ m.version }}</td>
+                                        <td>{{ m.status.name }}</td>
+                                        <td>{{ m.created_date }}</td>
+                                        <td>close</td>
+                                        <td>act</td>
+                                        <td>Detail</td>
+                                    </tr>
+                                {% endfor %}
+							</tbody>
+							</table>
+                           {% bootstrap_paginate page_obj %}
+                            <div>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. Size {{ page_obj.paginator.per_page }}</div>
+						</div>
+						</div>
+					</div>
+					<!-- END EXAMPLE TABLE PORTLET-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT -->
+		</div>
+{% endblock %}
+{% block scripts %}
+<script>
+jQuery(document).ready(function() {
+   Metronic.init(); // init metronic core components
+Layout.init(); // init current layout
+{#Demo.init(); // init demo features#}
+   TableEditable.init();
+});
+</script>
+{% endblock %}
+

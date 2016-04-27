@@ -1,47 +1,68 @@
-
-__author__ = 'Administrator'
-
 from rest_framework import serializers
+from netaddr import *
 from distrib_api.models import *
 
-
-class Miss_ser(serializers.HyperlinkedModelSerializer):
+class Play_typeserializers(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Miss
-        fields = ('url','hosts','playbooks','version','status','remark')
+        model = Play_type
 
-
-class SubMiss_ser(serializers.HyperlinkedModelSerializer):
+class Statusserializers(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = SubMiss
-        fields = ('url','host','playbooks','version','status','remark')
+        model = Status
 
-# class Service_type_ser(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Service_type
-#         fields = ('url','name','alias')
-#
-# class Status_ser(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Status
-#         fields = ('url','name','alias')
 
-class log_ser(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = log
-        fields = ('url','mission','start_time','end_time','status')
-
-class Masters_ser(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Masters
-        fields = ('url','master_name','master_ip','master_location','remark')
-
-class PlayBook_ser(serializers.HyperlinkedModelSerializer):
+#class SubMiss_ser(serializers.HyperlinkedModelSerializer):
+class PlayBookserializers(serializers.HyperlinkedModelSerializer):
+    type = serializers.SlugRelatedField(queryset=Play_type.objects.all(), slug_field='name')
     class Meta:
         model = PlayBook
-        fields = ('url','play_name','play_type')
 
-class Hosts_ser(serializers.HyperlinkedModelSerializer):
+class Groupserializers(serializers.HyperlinkedModelSerializer):
+    ips = serializers.SlugRelatedField(many=True, queryset=Ipv4Address.objects.all(), slug_field='name')
     class Meta:
-        model = Hosts
-        fields = ('url','host_name','host_ip','host_group','remark')
+        model = Group
+
+class Missionserializers(serializers.HyperlinkedModelSerializer):
+    hosts=serializers.SlugRelatedField(many=True, queryset=Ipv4Address.objects.all(), slug_field='name')
+    playbooks=serializers.SlugRelatedField(many=True, queryset=PlayBook.objects.all(), slug_field='name')
+    groups=serializers.SlugRelatedField(many=True, queryset=Group.objects.all(), slug_field='name')
+    status=serializers.SlugRelatedField(queryset=Status.objects.all(), slug_field='name')
+    sub_mission=serializers.SerializerMethodField()
+    class Meta:
+        model = Mission
+        fields = ('url','mark','hosts','playbooks','groups','sub_mission','version','status','remark','created_date','modified_date')
+
+    def get_sub_mission(self,obj):
+        result=[]
+        for m in Sub_Mission.objects.filter(mission=obj):
+            data={}
+            data['id']=m.id
+            data['host']=m.host.name
+            data['status']=m.status.name
+            result.append(data)
+        return result
+
+
+class Sub_Missionserializers(serializers.ModelSerializer):
+    host = serializers.SlugRelatedField(queryset=Ipv4Address.objects.all(), slug_field='name')
+    status = serializers.SlugRelatedField(queryset=Status.objects.all(), slug_field='name')
+    class Meta:
+        model = Sub_Mission
+        fields = ('url','mission','host','status','remark')
+
+class IPv4AddressSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Ipv4Address
+
+class IPv4NetworkSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Ipv4Network
+
+    def create(self, validated_data):
+        print validated_data
+        prefix = validated_data['name']
+        nwk = IPNetwork(prefix)
+        rawAddrs = [Ipv4Address(name=str(x)) for x in list(nwk)]
+        addresses = Ipv4Address.objects.bulk_create(rawAddrs, batch_size=30)
+        return super(IPv4NetworkSerializer, self).create(validated_data)
