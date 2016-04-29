@@ -31,9 +31,6 @@ class Mission_ViewSet(ListView):
             keyword = self.request.GET['keyword']
         except:
             keyword = ''
-        print 'start'
-        print keyword
-        print 'end'
         if keyword == '':
             return Mission.objects.all()
         else:
