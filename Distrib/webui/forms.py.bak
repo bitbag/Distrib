@@ -1,0 +1,44 @@
+# #coding=utf8
+from django.contrib.auth.forms import AuthenticationForm
+from django import forms
+from django.utils.translation import ugettext_lazy as _
+from distrib_api.models import *
+from django_select2 import fields
+
+class HostMultipleChoices(fields.AutoModelSelect2MultipleField):
+    queryset = Ipv4Address.objects
+    search_fields = ['name__icontains', ]
+
+class PlaybookMultipleChoices(fields.AutoModelSelect2MultipleField):
+    queryset = PlayBook.objects
+    search_fields = ['name__icontains', ]
+
+class GroupMultipleChoices(fields.AutoModelSelect2MultipleField):
+    queryset = Group.objects
+    search_fields = ['name__icontains', ]
+#
+class LoginForm(AuthenticationForm):
+    '''Authentication form which uses boostrap CSS.'''
+    username = forms.CharField(max_length=255,widget=forms.TextInput({
+                                   'class': 'form-control'}))
+    password = forms.CharField(label=_('Password'),
+                               widget=forms.PasswordInput({
+                                   'class': 'form-control'}))
+#
+class MissionForm(forms.ModelForm):
+    hosts = HostMultipleChoices(label="主机")
+    groups= GroupMultipleChoices(label="组")
+    playbooks=PlaybookMultipleChoices(label="Play book")
+    version=forms.CharField(label='版本', max_length=255, widget=forms.TextInput({'class': 'form-control'}))
+    remark = forms.CharField(label='应用程序名', max_length=255, widget=forms.TextInput({'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(MissionForm, self).__init__(*args, **kwargs)
+
+    def clean_version(self):
+        data = self.cleaned_data['version'].strip()
+        return data
+
+    class Meta:
+        model = Mission
+        exclude = [ 'modified_date', 'status']
