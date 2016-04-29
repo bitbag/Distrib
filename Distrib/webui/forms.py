@@ -1,22 +1,26 @@
-#coding=utf8
+# #coding=utf8
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from distrib_api.models import *
-from django_select2 import fields, widgets
+from django_select2.forms import (
+    HeavySelect2MultipleWidget, HeavySelect2Widget, ModelSelect2MultipleWidget,
+    ModelSelect2TagWidget, ModelSelect2Widget, Select2MultipleWidget,
+    Select2Widget
+)
 
-class HostMultipleChoices(fields.AutoModelSelect2MultipleField):
-    queryset = Ipv4Address.objects
-    search_fields = ['name__icontains', ]
+class BaseSearchFieldMixin(object):
+    search_fields = [
+        'name__icontains',
+        'pk__startswith'
+    ]
 
-class PlaybookMultipleChoices(fields.AutoModelSelect2MultipleField):
-    queryset = PlayBook.objects
-    search_fields = ['name__icontains', ]
+class BaseModelSelect2MultipleWidget(BaseSearchFieldMixin, ModelSelect2MultipleWidget):
+    pass
 
-class GroupMultipleChoices(fields.AutoModelSelect2MultipleField):
-    queryset = Group.objects
-    search_fields = ['name__icontains', ]
-
+class BaseModelSelect2Widget(BaseSearchFieldMixin, ModelSelect2Widget):
+    pass
+#
 class LoginForm(AuthenticationForm):
     '''Authentication form which uses boostrap CSS.'''
     username = forms.CharField(max_length=255,widget=forms.TextInput({
@@ -24,13 +28,10 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(label=_('Password'),
                                widget=forms.PasswordInput({
                                    'class': 'form-control'}))
-
+#
 class MissionForm(forms.ModelForm):
-    hosts = HostMultipleChoices(label="主机")
-    groups= GroupMultipleChoices(label="组")
-    playbooks=PlaybookMultipleChoices(label="Play book")
-    version=forms.CharField(label='版本', max_length=255, widget=forms.TextInput({'class': 'form-control'}))
-    remark = forms.CharField(label='应用程序名', max_length=255, widget=forms.TextInput({'class': 'form-control'}))
+    version=forms.CharField(label='版本' )
+    remark = forms.CharField(label='备注')
 
     def __init__(self, *args, **kwargs):
         super(MissionForm, self).__init__(*args, **kwargs)
@@ -41,4 +42,15 @@ class MissionForm(forms.ModelForm):
 
     class Meta:
         model = Mission
-        exclude = [ 'modified_date', 'status']
+        fields = (
+            'hosts',
+            'groups',
+            'playbooks',
+            'version',
+            'remark',
+        )
+        widgets = {
+            'hosts': BaseModelSelect2MultipleWidget,
+            'groups': BaseModelSelect2MultipleWidget,
+            'playbooks': BaseModelSelect2MultipleWidget,
+        }

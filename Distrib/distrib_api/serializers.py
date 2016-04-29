@@ -3,6 +3,7 @@ from netaddr import *
 from distrib_api.models import *
 
 class Play_typeserializers(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Play_type
 
@@ -12,11 +13,13 @@ class Statusserializers(serializers.HyperlinkedModelSerializer):
 
 class PlayBookserializers(serializers.HyperlinkedModelSerializer):
     type = serializers.SlugRelatedField(queryset=Play_type.objects.all(), slug_field='name')
+
     class Meta:
         model = PlayBook
 
 class Groupserializers(serializers.HyperlinkedModelSerializer):
     ips = serializers.SlugRelatedField(many=True, queryset=Ipv4Address.objects.all(), slug_field='name')
+
     class Meta:
         model = Group
 
@@ -26,9 +29,10 @@ class Missionserializers(serializers.HyperlinkedModelSerializer):
     groups=serializers.SlugRelatedField(many=True, queryset=Group.objects.all(), slug_field='name')
     status=serializers.SlugRelatedField(queryset=Status.objects.all(), slug_field='name')
     sub_mission=serializers.SerializerMethodField()
+
     class Meta:
         model = Mission
-        fields = ('url','mark','hosts','playbooks','groups','sub_mission','version','status','remark','created_date','modified_date')
+        fields = ('url','mark','hosts','playbooks','groups','sub_mission','version','status','remark','created_date', 'modified_date')
 
     def get_sub_mission(self,obj):
         result=[]
@@ -37,13 +41,14 @@ class Missionserializers(serializers.HyperlinkedModelSerializer):
             data['id']=m.id
             data['host']=m.host.name
             data['status']=m.status.name
+            data['remark']=m.remark
             result.append(data)
         return result
-
 
 class Sub_Missionserializers(serializers.ModelSerializer):
     host = serializers.SlugRelatedField(queryset=Ipv4Address.objects.all(), slug_field='name')
     status = serializers.SlugRelatedField(queryset=Status.objects.all(), slug_field='name')
+
     class Meta:
         model = Sub_Mission
         fields = ('url','mission','host','status','remark')

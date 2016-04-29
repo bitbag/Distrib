@@ -50,7 +50,7 @@ class PlaybookViewSet(BaseViewSet):
     fiter_class=Play_bookFilter
 
 class MissionViewSet(BaseViewSet):
-    http_method_names = ['get', 'put', 'patch']
+    http_method_names = ['get','post', 'put', 'patch']
     queryset = Mission.objects.all()
     serializer_class = Missionserializers
     filter_class=MissionFilter

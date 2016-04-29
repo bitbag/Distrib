@@ -22,10 +22,14 @@ from webui.forms import LoginForm
 from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
+    # url(r'^mission/create/$',views.CreateMissionView,name='mission-create'),
     #edit by guziqiang
     url(r'^$',views.index,name='index'),
     url(r'^mission/$',login_required(views.Mission_ViewSet.as_view()),name='mission'),
     url(r'^mission/create/$',login_required(views.CreateMissionView.as_view()),name='mission-create'),
+    url(r'^mission/update/(?P<mark>[0-9a-z-]+)/$',login_required(views.UpdateMissionView.as_view()),name='mission-update'),
+    url(r'^mission/delete/(?P<mark>[0-9a-z-]+)/$',login_required(views.DeleteMissionView.as_view()),name='mission-delete'),
+    # url(r'^mission/update/(?P<mark>\s+)/$',login_required(views.CreateMissionView.as_view()),name='mission-update'),
     url(r'^login/$',
         'django.contrib.auth.views.login',
         {

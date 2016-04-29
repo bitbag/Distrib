@@ -17,6 +17,7 @@ class Ipv4Address(NameModel):
 
 class Ipv4Network(NameModel):
     gateway = models.CharField(max_length=18, null=True)
+
     class Meta:
         ordering = ['name', ]
 
@@ -32,8 +33,10 @@ class Mission(CommonModel):
     version = models.CharField(max_length=50,null=False)
     status = models.ForeignKey(Status)
     remark = models.TextField(blank=True)
+
     def __unicode__(self):
         return str(self.mark)
+
     class Meta:
         ordering = ['-created_date', ]
 

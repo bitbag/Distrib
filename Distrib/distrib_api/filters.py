@@ -1,6 +1,4 @@
-from rest_framework import filters as source_filter
 import rest_framework_filters as filters
-from rest_framework_filters.backends import DjangoFilterBackend
 
 
 from models import *

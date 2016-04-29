@@ -72,14 +72,24 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'Distrib.urls'
 
 CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': 'redis://192.168.2.157:6379/1',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.3.23:6379/0",
         "OPTIONS": {
-            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
-        },
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     },
+    'select2': {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.3.23:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
+
+# Set the cache backend to select2
+SELECT2_CACHE_BACKEND = 'select2'
 REDIS_TIMEOUT=7*24*60*60
 CUBES_REDIS_TIMEOUT=60*60
 NEVER_REDIS_TIMEOUT=365*24*60*60
@@ -99,7 +109,6 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 'django.core.context_processors.request',
-                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -114,7 +123,7 @@ WSGI_APPLICATION = 'Distrib.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db1.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
