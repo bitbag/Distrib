@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from distrib_api import views
+from distrib_api import views,signals
 from rest_framework import routers
 
 router = routers.DefaultRouter()
