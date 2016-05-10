@@ -14,12 +14,8 @@ def progress_rebuild(mission):
                 all_host.append(group_host)
         all_host_list = list(set(all_host))
         existed_host_list=list(set([x.host for x in Sub_Mission.objects.filter(mission=mission)]))
-        print all_host_list
-        print existed_host_list
         add_list = [x for x in all_host_list if x not in existed_host_list]
         del_list = [x for x in existed_host_list if x not in all_host_list]
-        print add_list
-        print del_list
         if add_list:
             for add_host in add_list:
                 Sub_Mission.objects.create(host=add_host, mission=mission, status=Status.objects.get(name='undo'))
@@ -35,7 +31,6 @@ def progress_rebuild(mission):
 
 def mission_change(sender, **kwargs):
     mission=kwargs['instance']
-    print kwargs['action']
     if kwargs['action']=='post_add':
         return progress_rebuild(mission)
 
