@@ -10,6 +10,7 @@ from filters import *
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 
+
 class SearchViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.DjangoModelPermissions,)
     filter_backends = (DjangoFilterBackend,source_filter.SearchFilter)

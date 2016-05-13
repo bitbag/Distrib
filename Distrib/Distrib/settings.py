@@ -46,7 +46,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
+    #'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,7 +98,7 @@ NEVER_REDIS_TIMEOUT=365*24*60*60
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['D:\\work\\Distrib\\Distrib\\webui\\templates'],
+        'DIRS': ['D:\\Project\\Distrib\\Distrib\\webui\\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,7 +149,7 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static').replace('\\', '/')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    'D:\\work\\Distrib\\Distrib\\static',
+    'D:\\Project\\Distrib\\Distrib\\static',
 )
 
 LOGIN_REDIRECT_URL='/'
