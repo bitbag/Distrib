@@ -63,7 +63,6 @@ class IPv4NetworkSerializer(serializers.HyperlinkedModelSerializer):
         model = Ipv4Network
 
     def create(self, validated_data):
-        print validated_data
         prefix = validated_data['name']
         nwk = IPNetwork(prefix)
         rawAddrs = [Ipv4Address(name=str(x)) for x in list(nwk)]

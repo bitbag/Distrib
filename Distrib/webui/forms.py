@@ -31,7 +31,7 @@ class LoginForm(AuthenticationForm):
 #
 class MissionForm(forms.ModelForm):
     version=forms.CharField(label='版本' )
-    remark = forms.CharField(label='备注')
+    remark = forms.CharField(label='备注',required=False)
 
     def __init__(self, *args, **kwargs):
         super(MissionForm, self).__init__(*args, **kwargs)

@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'django_select2',
     'bootstrap_pagination',
-    'webui'
+    'webui',
+    'djcelery'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -159,3 +160,11 @@ LOGOUT_REDIRECT_URL='/'
 # Select 2
 AUTO_RENDER_SELECT2_STATICS = True
 SELECT2_BOOTSTRAP = True
+
+import djcelery
+
+djcelery.setup_loader()
+# Celery Settings
+BROKER_URL = 'redis://192.168.3.23:6379/2'
+CELERY_RESULT_BACKEND = 'redis://192.168.3.23:6379/2'
+# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'

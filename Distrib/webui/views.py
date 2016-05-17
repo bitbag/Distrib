@@ -35,14 +35,6 @@ class Mission_ViewSet(ListView):
             return Mission.objects.all()
         else:
             return Mission.objects.filter(Q(version__icontains=keyword))
-#
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated, ])
-# @csrf_exempt
-# def CreateMissionView(request):
-#     data=request.POST.get('')
-#     return HttpResponse(data)
-
 
 class CreateMissionView(FormView):
     template_name = u'mission_form.html'

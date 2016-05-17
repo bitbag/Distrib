@@ -18,9 +18,17 @@
               },
           },
       }
+<<<<<<< HEAD
 	  
       REDIS_TIMEOUT=7*24*60*60      
       CUBES_REDIS_TIMEOUT=60*60
       NEVER_REDIS_TIMEOUT=365*24*60*60
 
+=======
+      REDIS_TIMEOUT=7*24*60*60
+      CUBES_REDIS_TIMEOUT=60*60
+      NEVER_REDIS_TIMEOUT=365*24*60*60
+
+
+>>>>>>> 52288767d9330800f3022c1726d642a7799d7635
    """
