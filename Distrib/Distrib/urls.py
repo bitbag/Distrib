@@ -10,8 +10,4 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('distrib_api.urls')),
     url(r'^', include('webui.urls')),
-    # url(r'^index/', views.index),
-    # url(r'^CreateMission/', views.CreateMission),
-    # url(r'^rewis/', views.Write_to_redis),
-    # url(r'^redis/', views.Get_from_redis),
 ]
