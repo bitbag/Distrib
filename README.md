@@ -1,5 +1,6 @@
 
 # Distrib
+# Distrib project
 
 """To_enable_redis_cache:
    1.pip install django-redis==3.8.3      #enable redis cache
